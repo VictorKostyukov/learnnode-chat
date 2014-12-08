@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%=blocks .title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+<!--
+    <link rel="stylesheet" href="/vendor/bower-components/bootstrap/dist/bootstrap.css" />
+    <link rel="stylesheet" href="/css/app.css" />
+
+    <script src="stylesheet" href="/vendor/bower-components/jquery/jquery.js" />
+    <script src="stylesheet" href="/vendor/bower-components/bootstrap/dist/js/bootstrap.js" />
+-->
+</head>
+<body>
+    <header>
+        [templates/layout/page.ejs] this is header
+    </header>
+
+    <h1><%= title %></h1>
+    <p>[templates/layout/page.ejs] Welcome to <%= title %></p>
+
+    <section class="container">
+        [templates/layout/page.ejs] section class=container is here
+
+    </section>
+
+    <%-body%>
+
+    <footer>
+        [templates/layout/page.ejs] this is footer
+    </footer>
+</body>
+</html>
