@@ -1,50 +1,45 @@
 var async = require('async');
 var mongoose = require('./libs/mongoose');
 var config = require('./config');
-var User = require('./models/user').User;
 
+async.series([
+    openConnection,
+    dropDatabase,
+    requireModels,
+    createUsers
+], function(err, results) {
+    console.log(arguments);
+    mongoose.disconnect();
+    process.exit(err ? 1: 0);
+});
 
-mongoose.connection.on('open', function() {
+function openConnection(callback) {
+    mongoose.connection.on('open', callback);
+}
+
+function dropDatabase(callback) {
     var db = mongoose.connection.db;
+    db.dropDatabase(callback);
+    console.log('Database %s was dropped', config.get('mongoose:uri'));
+}
 
-    db.dropDatabase(function(err) {
-        if (err) throw err;
-        console.log('Database %s was dropped', config.get('mongoose:uri'));
+function requireModels(callback) {
+    require('./models/user');
 
-        async.parallel([
-            function(callback) {
-                var user1 = new User({ username: 'admin', password: '00000'});
-                user1.save(function(err) {
-                    callback(err, user1);
-                });
-            },
-            function(callback) {
-                var user2 = new User({ username: 'Ying', password: '11111'});
-                user2.save(function(err) {
-                    callback(err, user2);
-                });
-            },
-            function(callback) {
-                var user3 = new User({ username: 'Victor', password: '22222'});
-                user3.save(function(err) {
-                    callback(err, user3);
-                });
-            }
-        ], function(err, results) {
-            console.log(arguments);
-            mongoose.disconnect();
-        });
+    async.each(Object.keys(mongoose.models), function(modelName, callback) {
+        mongoose.models[modelName].ensureIndexes(callback);
+    }, callback);
+}
 
-/*
-        var user1 = new User({ username: 'admin', password: '00000'});
-        var user2 = new User({ username: 'Ying', password: '11111'});
-        var user3 = new User({ username: 'Victor', password: '22222'});
+function createUsers(callback) {
+    var users = [
+        { username: 'admin', password: '00000'},
+        { username: 'Ying', password: '11111'},
+        { username: 'Victor', password: '22222'}
+    ];
 
-        user1.save();
-        user2.save();
-        user3.save();
-
-        mongoose.disconnect();
-*/
-    })
-})
+    async.each(users, function(userData, callback) {
+        var user = new mongoose.models.User(userData);
+        user.save(callback);
+    }, callback);
+}
