@@ -1,11 +1,14 @@
 var express = require('express');
-var path = require('path');
+var session = require('express-session');
 var favicon = require('serve-favicon');
-var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var logger = require('morgan');
+var path = require('path');
 
 var HttpError = require('./error').HttpError;
+var mongoose = require('./libs/mongoose')
+var config = require('./config');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -25,6 +28,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var MongoStore = require('connect-mongo')(session);
+app.use(session({
+    secret: config.get('session:secret'),
+    resave: config.get('session:resave'),
+    saveUninitialized: config.get('session:saveUninitialized'),
+    name: config.get('session:name'),
+    cookie: config.get('session: cookie'),
+    store: new MongoStore({mongoose_connection: mongoose.connection})
+}));
+
+app.use(function(req,res,next) {
+    req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+    res.send("Visits: " + req.session.numberOfVisits);
+});
 
 app.use(require('./middleware/sendHttpError'));
 

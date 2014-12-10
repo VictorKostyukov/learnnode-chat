@@ -9,5 +9,16 @@
 		}
 	  }
 	}
+  },
+  "session": {
+	"secret ": "ThisIsSecret",
+	"resave": false,
+	"saveUninitialized": true,
+	"name": "ThisIsMySid",
+	"cookie": {
+	  "path": "/",
+	  "httpOnly": true,
+	  "maxAge": null
+	}
   }
 }
