@@ -13,14 +13,14 @@ router.get('/:id', function(req, res, next) {
     try {
         var id = new ObjectID(req.params.id);
     } catch (e) {
-        return next(new HttpError(404, "[routes/user.js] UserId is invalid"));
+        return next(new HttpError(404, "UserId Invalid"));
         return next(err);
     }
 
     User.findById(req.params.id, function(err, user) {
         if (err) return next(err);
         if (!user) {
-            return next(new HttpError(404, "[routes/user.js] User not found"));
+            return next(new HttpError(404, "User Not Found"));
         }
         res.json(user);
     });

@@ -1,6 +1,5 @@
 <% layout('layout/page') -%>
-<% block('title', 'error.message will be here') -%>
+<% block('title', 'Error ' + error.status) -%>
 
-<p>[templates/error.ejs] Sorry, error happened.</p>
-
-<p><b><%=error.message%></b></p>
+<h2><%=error.message%></h2>
+<%= error.stack %>

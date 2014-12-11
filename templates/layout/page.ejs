@@ -1,33 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><%=blocks.title %></title>
+    <title>VK Super Chat</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css" />
 <!--
-    <link rel="stylesheet" href="/vendor/bower-components/bootstrap/dist/bootstrap.css" />
-    <link rel="stylesheet" href="/css/app.css" />
-
-    <script src="stylesheet" href="/vendor/bower-components/jquery/jquery.js" />
-    <script src="stylesheet" href="/vendor/bower-components/bootstrap/dist/js/bootstrap.js" />
+    <script src="stylesheet" href="/vendor/bower_components/jquery/jquery.js" />
+    <script src="stylesheet" href="/vendor/bower_components/bootstrap/dist/js/bootstrap.js" />
 -->
 </head>
 <body>
     <header>
-        [templates/layout/page.ejs] this is header
+        <nav class="navbar navbar-default" role="navigation">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
+                <li><a href="/">Login</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <h1><%= title %></h1>
-    <p>[templates/layout/page.ejs] Welcome to <%= title %></p>
-
     <section class="container">
-        [templates/layout/page.ejs] section class=container is here
+        <h1><%-blocks.title%></h1>
 
+        <%-body%>
     </section>
 
-    <%-body%>
-
-    <footer>
-        [templates/layout/page.ejs] this is footer
-    </footer>
 </body>
 </html>
