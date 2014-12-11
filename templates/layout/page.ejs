@@ -4,19 +4,25 @@
     <title>VK Super Chat</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <link rel="stylesheet" href="/vendor/bower_components/bootstrap/dist/css/bootstrap.css" />
-<!--
-    <script src="stylesheet" href="/vendor/bower_components/jquery/jquery.js" />
-    <script src="stylesheet" href="/vendor/bower_components/bootstrap/dist/js/bootstrap.js" />
--->
+
+    <script src="/vendor/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/vendor/bower_components/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-default" role="navigation">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
+                <% if (user) { %>
+                    <li><a href="/chat">Chat</a></li>
+                <% } %>
             </ul>
             <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
-                <li><a href="/">Login</a></li>
+                <% if (user) { %>
+                    <li><a href="" onclick="$('<form method=POST action=/logout>').submit();return false;">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                <% }%>
             </ul>
         </nav>
     </header>

@@ -14,7 +14,7 @@
 	"secret": "ThisIsSecret",
 	"resave": false,
 	"saveUninitialized": true,
-	"name": "ThisIsMySid",
+	"name": "VKChatSid",
 	"cookie": {
 	  "path": "/",
 	  "httpOnly": true,
