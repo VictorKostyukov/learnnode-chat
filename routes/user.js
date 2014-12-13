@@ -5,10 +5,9 @@ var ObjectID = require('mongodb').ObjectID;
 
 var User = require('../models/user').User;
 var HttpError = require('../error').HttpError;
+var log = require('../libs/log')(module);
 
 
-
-/* GET user by id. */
 router.get('/:id', function(req, res, next) {
     try {
         var id = new ObjectID(req.params.id);
@@ -22,6 +21,8 @@ router.get('/:id', function(req, res, next) {
         if (!user) {
             return next(new HttpError(404, "User Not Found"));
         }
+        var username = user.get('username');
+        log.debug('Result:', username);
         res.json(user);
     });
 });

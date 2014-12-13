@@ -1,16 +1,16 @@
 <% layout('layout/page') -%>
 <% block('title', 'Welcome to VK Super Chat!') -%>
 
-<p><i>Chat page will be here</i></p>
 <p><i>Welcome, <%=user.get('username')%></i></p>
 
 <script src="/vendor/bower_components/socket.io-client/socket.io.js"></script>
 
-<div id="room">
+<div id="room" style="margin-bottom:50px">
     <ul class="list-unstyled"></ul>
     <form>
         <input class="form-control" autocomplete="off" autofocus placeholder="Message...">
     </form>
+    <div id="bottom"/>
 </div>
 
 <script>
@@ -23,8 +23,14 @@
     });
 
     socket
-        .on('message', function(message) {
-            printMessage(message);
+        .on('message', function(username, message) {
+            printMessage(username + '> '+ message);
+        })
+        .on('leave', function(username) {
+            printMessage(username + " has left the chat");
+        })
+        .on('join', function(username) {
+            printMessage(username + " has entered the chat");
         })
         .on('connect', function() {
             printStatus("You've entered the chat");
@@ -35,13 +41,29 @@
             printStatus("You've left  the chat");
             form.off('submit', sendMessage);
             input.prop('disabled', true);
-            setTimeout(reconnect, 500);
+            this.$emit('error');
+        })
+        .on('logout', function() {
+            location.href = "/";
+        })
+        .on('session:reload', function() {
+            console.log("reload received");
+            socket.emit('session:reload');
+        })
+        .on('error', function(reason) {
+            if (reason == "handshake unauthorized") {
+                printStatus("You've left  the chat");
+            } else {
+                setTimeout(function(){
+                    socket.socket.connect()
+                },500);
+            }
         });
 
     function sendMessage() {
         var text = input.val();
         socket.emit('message', text, function() {
-            printMessage(text);
+            printMessage('me> ' +text);
         });
         input.val('');
         return false;
@@ -56,10 +78,12 @@
 
     function printStatus(status) {
         $('<li>').append($('<i>').text(status)).appendTo(ul);
+        document.getElementById( 'bottom' ).scrollIntoView();
     }
 
     function printMessage(text) {
         $('<li>').text(text).appendTo(ul);
+        document.getElementById( 'bottom' ).scrollIntoView();
     }
 
 </script>

@@ -7,7 +7,7 @@ var logger = require('morgan');
 var path = require('path');
 
 var HttpError = require('./error').HttpError;
-var mongoose = require('./libs/mongoose')
+var mongoose = require('./libs/mongoose');
 var config = require('./config');
 
 var routes = require('./routes/index');
@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var MongoStore = require('connect-mongo')(session);
+var sessionStore = require('./libs/sessionStore');
 
 app.use(session({
     secret: config.get('session:secret'),
@@ -38,7 +38,7 @@ app.use(session({
     saveUninitialized: config.get('session:saveUninitialized'),
     name: config.get('session:name'),
     cookie: config.get('session: cookie'),
-    store: new MongoStore({mongoose_connection: mongoose.connection})
+    store: sessionStore
 }));
 
 app.use(require('./middleware/sendHttpError'));
