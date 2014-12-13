@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
-var User = require('models/user').User;
-var AuthError = require('models/user').AuthError;
-var HttpError = require('error').HttpError;
+var User = require('../models/user').User;
+var AuthError = require('../models/user').AuthError;
+var HttpError = require('../error').HttpError;
 
 router.get('/', function(req, res) {
     res.render('login');

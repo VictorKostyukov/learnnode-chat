@@ -1,6 +1,6 @@
 var async = require('async');
-var mongoose = require('./libs/mongoose');
-var config = require('./config');
+var mongoose = require('../libs/mongoose');
+var config = require('../config');
 
 async.series([
     openConnection,

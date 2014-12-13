@@ -1,6 +1,5 @@
 var async = require('async');
 var cookie = require('cookie');
-var connect = require('connect');
 var cookieParser = require('cookie-parser');
 
 var log = require('../libs/log')(module);
@@ -102,8 +101,7 @@ module.exports = function(server) {
 
                 client.handshake.session = session;
             });
-        })
-    //
+        });
     });
 
     io.on('connection', function (socket) {
