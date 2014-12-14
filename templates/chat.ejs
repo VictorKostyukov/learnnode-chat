@@ -5,12 +5,11 @@
 
 <script src="https://cdn.socket.io/socket.io-1.2.1.js"></script>
 
-<div id="room" style="margin-bottom:50px">
+<div id="room">
     <ul class="list-unstyled"></ul>
     <form>
-        <input class="form-control" autocomplete="off" autofocus placeholder="Message...">
+        <input class="form-control" id="input-form" autocomplete="off" autofocus placeholder="Message..." style="margin-bottom:10px">
     </form>
-    <div id="bottom"/>
 </div>
 
 <script>
@@ -78,12 +77,12 @@
 
     function printStatus(status) {
         $('<li>').append($('<i>').text(status)).appendTo(ul);
-        document.getElementById( 'bottom' ).scrollIntoView();
+        document.getElementById('input-form').scrollIntoView();
     }
 
     function printMessage(text) {
         $('<li>').text(text).appendTo(ul);
-        document.getElementById( 'bottom' ).scrollIntoView();
+        document.getElementById('input-form').scrollIntoView();
     }
 
 </script>
