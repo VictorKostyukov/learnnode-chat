@@ -40,7 +40,7 @@ var temphack = '';
 
 module.exports = function(server) {
     var io = require('socket.io').listen(server);
-    io.set('origins', 'localhost:*');
+    io.set('origins', '*:*');
     //io.set('logger', log);
 
     io.set('authorization', function(handshake, callback) {
